@@ -1,0 +1,64 @@
+import csv
+
+# Функция для загрузки контактов из CSV файла
+def load_contacts(filename):
+    contacts = []
+    try:
+        with open(filename, 'r', newline='') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                contacts.append(row)
+        print("Контакты успешно загружены!")
+    except FileNotFoundError:
+        print("Файл не найден. Создан новый справочник.")
+    return contacts
+
+# Функция для сохранения контактов в CSV файл
+def save_contacts(filename, contacts):
+    with open(filename, 'w', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=["Name", "Phone"])
+        writer.writeheader()
+        writer.writerows(contacts)
+    print("Контакты успешно сохранены!")
+
+# Функция для добавления нового контакта
+def add_contact(contacts):
+    name = input("Введите имя: ")
+    phone = input("Введите номер телефона: ")
+    contacts.append({"Name": name, "Phone": phone})
+    print("Контакт успешно добавлен!")
+
+# Функция для вывода всех контактов
+def view_contacts(contacts):
+    if not contacts:
+        print("Справочник пуст.")
+    else:
+        for contact in contacts:
+            print(f"Имя: {contact['Name']}, Телефон: {contact['Phone']}")
+
+# Основная функция приложения
+def main():
+    filename = "contacts.csv"
+    contacts = load_contacts(filename)
+
+    while True:
+        print("\n1. Просмотреть контакты")
+        print("2. Добавить новый контакт")
+        print("3. Сохранить контакты")
+        print("4. Выйти")
+
+        choice = input("Выберите действие: ")
+        if choice == "1":
+            view_contacts(contacts)
+        elif choice == "2":
+            add_contact(contacts)
+        elif choice == "3":
+            save_contacts(filename, contacts)
+        elif choice == "4":
+            print("До свидания!")
+            break
+        else:
+            print("Некорректный выбор.")
+
+if __name__ == "__main__":
+    main()
