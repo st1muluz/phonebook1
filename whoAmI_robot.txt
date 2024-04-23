@@ -1,0 +1,19 @@
+import pandas as pd
+import random
+
+# Генерация исходных данных
+lst = ['robot'] * 10
+lst += ['human'] * 10
+random.shuffle(lst)
+data = pd.DataFrame({'whoAmI': lst})
+
+# Преобразование в one-hot
+one_hot_data = pd.get_dummies(data)
+
+# Вывод исходных данных
+print("Исходные данные:")
+print(data.head())
+
+# Вывод преобразованных данных
+print("\nПреобразованные данные в one-hot формате:")
+print(one_hot_data.head())
